@@ -17,7 +17,6 @@ entity "Device" as device {
     *id : INT
     --
     serial_number: VARCHAR
-    user_id: INT <<FK>>
     house_id: INT <<FK>>
     name : VARCHAR
     created: DATETIME
@@ -57,7 +56,15 @@ entity "DeviceEvent" as device_event {
     details: JSONB
 }
 
-user ||--o{ device: "1:N"
+entity "UserDevice" as user_device_event {
+    device_id: INT <<PK,FK>>
+    user_id: INT <<PK,FK>>
+}
+
+
+
+user ||--o{ user_device_event: "1:N"
+device ||--o{ user_device_event: "1:N"
 user ||--o{ house: "1:N"
 device ||--|| device_type : "1:1"
 device ||--o{ device_event : "1:N"
